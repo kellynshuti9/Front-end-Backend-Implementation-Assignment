@@ -21,7 +21,8 @@ class _CreditTrackerScreenState extends State<CreditTrackerScreen> {
   List<Map<String, dynamic>> _credits = [];
   bool _isLoading = true;
  
-  final FirebaseService _firebaseService = FirebaseServi
+  final FirebaseService _firebaseService = FirebaseService();
+
 
   @override
   void initState() {
