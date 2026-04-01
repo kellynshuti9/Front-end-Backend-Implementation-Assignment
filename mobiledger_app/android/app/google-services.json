@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "423673139047",
+    "project_id": "mobiledger-6f54f",
+    "storage_bucket": "mobiledger-6f54f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:423673139047:android:b492cbc470e881e32629c2",
+        "android_client_info": {
+          "package_name": "com.mobileledger"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "423673139047-tgemq5tdagdtdriuto9qaakrf1svjfc2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbMiWgnkcZv3WGgqDXHRrf3iKUZ70RK5M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "423673139047-tgemq5tdagdtdriuto9qaakrf1svjfc2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
