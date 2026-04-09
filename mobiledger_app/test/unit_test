@@ -1,0 +1,150 @@
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mobiledger1/core/utils/validators.dart';
+import 'package:mobiledger1/data/models/product_model.dart';
+import 'package:mobiledger1/data/models/user_model.dart';
+import 'package:mobiledger1/data/models/order_model.dart';
+import 'package:mobiledger1/data/models/credit_model.dart';
+
+void main() {
+  // ─── Validators ─────────────────────────────────────────────────────────────
+  group('Validators.email', () {
+    test('accepts valid email', () {
+      expect(Validators.email('user@example.com'), isNull);
+      expect(Validators.email('alice@mobiledger.rw'), isNull);
+      expect(Validators.email('a+b@x.co'), isNull);
+    });
+    test('rejects missing @', () => expect(Validators.email('nodomain'), isNotNull));
+    test('rejects empty',       () => expect(Validators.email(''), isNotNull));
+    test('rejects null',        () => expect(Validators.email(null), isNotNull));
+    test('rejects no TLD',      () => expect(Validators.email('x@y'), isNotNull));
+  });
+
+  group('Validators.password', () {
+    test('accepts 6+ chars',   () => expect(Validators.password('secure'), isNull));
+    test('accepts long pass',  () => expect(Validators.password('pass1234'), isNull));
+    test('rejects 5 chars',    () => expect(Validators.password('abcde'), isNotNull));
+    test('rejects empty',      () => expect(Validators.password(''), isNotNull));
+    test('rejects null',       () => expect(Validators.password(null), isNotNull));
+  });
+
+  group('Validators.confirmPassword', () {
+    test('matches',     () => expect(Validators.confirmPassword('abc123', 'abc123'), isNull));
+    test('mismatch',    () => expect(Validators.confirmPassword('abc123', 'different'), isNotNull));
+    test('empty value', () => expect(Validators.confirmPassword('', 'abc123'), isNotNull));
+  });
+
+  group('Validators.price', () {
+    test('accepts positive',  () => expect(Validators.price('500'), isNull));
+    test('accepts decimal',   () => expect(Validators.price('0.99'), isNull));
+    test('rejects zero',      () => expect(Validators.price('0'), isNotNull));
+    test('rejects negative',  () => expect(Validators.price('-10'), isNotNull));
+    test('rejects text',      () => expect(Validators.price('abc'), isNotNull));
+    test('rejects null',      () => expect(Validators.price(null), isNotNull));
+  });
+
+  group('Validators.quantity', () {
+    test('accepts zero',      () => expect(Validators.quantity('0'), isNull));
+    test('accepts positive',  () => expect(Validators.quantity('100'), isNull));
+    test('rejects negative',  () => expect(Validators.quantity('-1'), isNotNull));
+    test('rejects text',      () => expect(Validators.quantity('abc'), isNotNull));
+  });
+
+  // ─── ProductModel ─────────────────────────────────────────────────────────
+  group('ProductModel', () {
+    final p = ProductModel(
+      id: 'p1', ownerId: 'u1', name: 'Tomatoes',
+      category: 'Vegetables', price: 2500, stockQuantity: 50,
+      createdAt: DateTime(2026, 1, 1), updatedAt: DateTime(2026, 1, 1),
+    );
+
+    test('formattedPrice is correct',     () => expect(p.formattedPrice, '2500 RWF'));
+    test('stockStatus Active for qty>4',  () => expect(p.stockStatus, 'Active'));
+    test('stockStatus Low Stock for 1-4', () {
+      expect(p.copyWith(stockQuantity: 3).stockStatus, 'Low Stock');
+    });
+    test('stockStatus Out for 0',         () {
+      expect(p.copyWith(stockQuantity: 0).stockStatus, 'Out of Stock');
+    });
+    test('inStock true when qty>0',       () => expect(p.inStock, isTrue));
+    test('inStock false when qty==0',     () {
+      expect(p.copyWith(stockQuantity: 0).inStock, isFalse);
+    });
+    test('toMap/fromMap round-trip', () {
+      final map  = p.toMap();
+      final copy = ProductModel.fromMap(map, 'p1');
+      expect(copy.name,     p.name);
+      expect(copy.price,    p.price);
+      expect(copy.category, p.category);
+    });
+    test('copyWith updates only specified fields', () {
+      final updated = p.copyWith(name: 'Onions', price: 1500);
+      expect(updated.name,     'Onions');
+      expect(updated.price,    1500);
+      expect(updated.category, p.category); // unchanged
+    });
+  });
+
+  // ─── UserModel ────────────────────────────────────────────────────────────
+  group('UserModel', () {
+    final u = UserModel(
+      uid: 'u1', fullName: 'Alice Uwimana',
+      email: 'alice@example.com', createdAt: DateTime(2026, 1, 1),
+    );
+
+    test('toMap contains required keys', () {
+      final m = u.toMap();
+      expect(m['fullName'], 'Alice Uwimana');
+      expect(m['email'],    'alice@example.com');
+    });
+    test('fromMap restores uid correctly', () {
+      final copy = UserModel.fromMap(u.toMap(), 'u1');
+      expect(copy.uid,   'u1');
+      expect(copy.email, u.email);
+    });
+    test('copyWith preserves uid', () {
+      final copy = u.copyWith(fullName: 'Alice K.');
+      expect(copy.uid,      u.uid);
+      expect(copy.fullName, 'Alice K.');
+      expect(copy.email,    u.email);
+    });
+    test('followedShopIds defaults to empty', () {
+      expect(u.followedShopIds, isEmpty);
+    });
+  });
+
+  // ─── OrderItem ────────────────────────────────────────────────────────────
+  group('OrderItem', () {
+    const item = OrderItem(
+      productId: 'p1', productName: 'Tomatoes',
+      quantity: 3, unitPrice: 2500,
+    );
+
+    test('total = qty × unitPrice',    () => expect(item.total, 7500));
+    test('toMap/fromMap round-trip', () {
+      final copy = OrderItem.fromMap(item.toMap());
+      expect(copy.quantity,  item.quantity);
+      expect(copy.unitPrice, item.unitPrice);
+      expect(copy.total,     item.total);
+    });
+  });
+
+  // ─── CreditModel ─────────────────────────────────────────────────────────
+  group('CreditModel', () {
+    final c = CreditModel(
+      id: 'c1', creditorId: 'u1', debtorName: 'John Doe',
+      amount: 10000, amountPaid: 3000,
+      dueDate: DateTime(2026, 12, 31),
+      status: CreditStatus.active,
+      createdAt: DateTime(2026, 1, 1),
+    );
+
+    test('remaining = amount - paid', () => expect(c.remaining, 7000));
+    test('isOverdue false for future due date', () => expect(c.isOverdue, isFalse));
+    test('toMap/fromMap round-trip', () {
+      final copy = CreditModel.fromMap(c.toMap(), 'c1');
+      expect(copy.amount,      c.amount);
+      expect(copy.amountPaid,  c.amountPaid);
+      expect(copy.debtorName,  c.debtorName);
+    });
+  });
+}

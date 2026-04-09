@@ -1,44 +1,44 @@
 name: mobiledger_app
-description: MobiLedger - Track, Learn, Grow in Your Language
+description: MobiLedger – Track. Learn. Grow. in Your Language.
 publish_to: 'none'
-
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.2.0 <4.0.0'
-  flutter: '>=3.16.0'
+  sdk: '>=3.3.0 <4.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
 
   # Firebase
-  firebase_core: ^3.12.1
-  firebase_auth: ^5.5.1
-  firebase_database: ^11.3.0  # ✅ Realtime Database (replace cloud_firestore)
-  google_sign_in: ^6.3.0
+  firebase_core: ^3.3.0
+  firebase_auth: ^5.1.4
+  cloud_firestore: ^5.2.1
+  firebase_storage: ^12.1.3
+  google_sign_in: ^6.2.1
 
-  # State Management
-  flutter_bloc: ^8.1.6
-  equatable: ^2.0.7
+  # State management
+  provider: ^6.1.2
 
-  # Storage
-  shared_preferences: ^2.5.2
+  # Local persistence
+  shared_preferences: ^2.3.1
+
+  # Image
   image_picker: ^1.1.2
-  cached_network_image: ^3.4.1
+  cached_network_image: ^3.3.1
 
   # Utilities
-  intl: ^0.20.2
-  shimmer: ^3.0.0
+  intl: ^0.19.0
+  uuid: ^4.4.2
+  fluttertoast: ^8.2.8
+  url_launcher: ^6.3.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^5.0.0
+  flutter_lints: ^4.0.0
+  mockito: ^5.4.4
+  build_runner: ^2.4.11
 
 flutter:
   uses-material-design: true
-  
-  assets:
-    - assets/images/
-    - assets/icons/

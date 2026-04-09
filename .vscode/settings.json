@@ -1,0 +1,17 @@
+{
+  "git.path": "C:\\Program Files\\Git\\cmd\\git.exe",
+  "terminal.integrated.profiles.windows": {
+    "Command Prompt": {
+      "path": "C:\\Windows\\System32\\cmd.exe",
+      "args": []
+    },
+    "PowerShell": {
+      "path": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "args": ["-NoLogo"]
+    }
+  },
+  "terminal.integrated.defaultProfile.windows": "Command Prompt",
+  "terminal.integrated.env.windows": {
+    "PATH": "${env:PATH};C:\\Program Files\\Git\\cmd;C:\\Program Files\\Git\\usr\\bin;C:\\Program Files\\Git\\bin;C:\\Windows\\System32;C:\\Windows\\System32\\WindowsPowerShell\\v1.0"
+  }
+}

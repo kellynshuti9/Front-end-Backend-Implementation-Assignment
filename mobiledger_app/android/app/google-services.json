@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "423673139047",
-    "project_id": "mobiledger-6f54f",
-    "storage_bucket": "mobiledger-6f54f.firebasestorage.app"
+    "project_number": "89203076653",
+    "project_id": "bileledger123",
+    "storage_bucket": "bileledger123.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:423673139047:android:b492cbc470e881e32629c2",
+        "mobilesdk_app_id": "1:89203076653:android:2f4103c8ece4be8a75d2a4",
         "android_client_info": {
-          "package_name": "com.mobileledger"
+          "package_name": "com.example.mobiledger1"
         }
       },
       "oauth_client": [
         {
-          "client_id": "423673139047-tgemq5tdagdtdriuto9qaakrf1svjfc2.apps.googleusercontent.com",
+          "client_id": "89203076653-sl8husrlctqkmio147s4s6uf6jm1njjn.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDbMiWgnkcZv3WGgqDXHRrf3iKUZ70RK5M"
+          "current_key": "AIzaSyCCPm3eD_YUn6OgPkg6n01pe_mInXaf4sM"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "423673139047-tgemq5tdagdtdriuto9qaakrf1svjfc2.apps.googleusercontent.com",
+              "client_id": "89203076653-sl8husrlctqkmio147s4s6uf6jm1njjn.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
